@@ -1,7 +1,7 @@
 import * as Three from 'three'
 import * as gameloop from 'gameloop'
 
-function createMesh () : Three.Mesh {
+function createMesh (x: number, y: number, z: number) : Three.Mesh {
   const RINGS = 50;
   const SEGMENTS = 16;
   const RADIUS = 16;
@@ -23,7 +23,9 @@ function createMesh () : Three.Mesh {
   let geometry = new Three.BoxGeometry(25, 25, 25 );
   let mesh = new Three.Mesh(geometry , material);
 
-  mesh.position.z = -50;
+  mesh.position.z = z;
+  mesh.position.y = y;
+  mesh.position.x = x;
 
   return mesh;
 }
@@ -39,8 +41,8 @@ function createLight () : Three.PointLight {
 }
 
 window.addEventListener('load', (evt) => {
-  const WIDTH = 800;
-  const HEIGHT = 600;
+  const WIDTH = 1200;
+  const HEIGHT = 900;
 
   const VIEW_ANGLE = 45;
   const ASPECT = WIDTH / HEIGHT;
@@ -56,11 +58,13 @@ window.addEventListener('load', (evt) => {
     FAR
   );
 
-  const scene = new Three.Scene();
-  let mesh = createMesh();
+  let scene = new Three.Scene();
+  let mesh1 = createMesh(0, 0, -250);
+  let mesh2 = createMesh(0, 55, -300);
 
   scene.add(camera)
-  scene.add(mesh)
+  scene.add(mesh1)
+  scene.add(mesh2)
   scene.add(createLight())
 
   renderer.setSize(WIDTH, HEIGHT)
@@ -68,9 +72,11 @@ window.addEventListener('load', (evt) => {
   let game = gameloop({ renderer })
 
   game.on('update', (dt: number) => {
-    mesh.rotation.x += (2 * dt)
-    mesh.rotation.y += (3 * dt)
-    mesh.rotation.z += dt
+    mesh1.rotation.x += (2 * dt)
+    mesh1.rotation.y += (3 * dt)
+    mesh1.rotation.z += dt
+
+    mesh2.rotation.x -= 5 * dt
   })
 
   game.on('draw', (renderer: Three.WebGLRenderer) => {
