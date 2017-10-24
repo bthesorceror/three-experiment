@@ -1,5 +1,6 @@
 import * as Three from 'three'
 import * as gameloop from 'gameloop'
+import * as ArcadeKeys from 'arcade_keys'
 
 function createMesh (x: number, y: number, z: number) : Three.Mesh {
   const RINGS = 50;
@@ -49,6 +50,8 @@ window.addEventListener('load', (evt) => {
   const NEAR = 0.1;
   const FAR = 10000;
 
+  const keys = ArcadeKeys()
+
   const renderer = new Three.WebGLRenderer();
 
   const camera = new Three.PerspectiveCamera(
@@ -77,6 +80,24 @@ window.addEventListener('load', (evt) => {
     mesh1.rotation.z += dt
 
     mesh2.rotation.x -= 5 * dt
+
+    const SPEED = 50;
+
+    if (keys.isPressed('w')) {
+      camera.position.z -= (SPEED * dt);
+    }
+
+    if (keys.isPressed('s')) {
+      camera.position.z += (SPEED * dt);
+    }
+
+    if (keys.isPressed('d')) {
+      camera.position.x += (SPEED * dt);
+    }
+
+    if (keys.isPressed('a')) {
+      camera.position.x -= (SPEED * dt);
+    }
   })
 
   game.on('draw', (renderer: Three.WebGLRenderer) => {
