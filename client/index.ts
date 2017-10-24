@@ -3,23 +3,9 @@ import * as gameloop from 'gameloop'
 import * as ArcadeKeys from 'arcade_keys'
 
 function createMesh (x: number, y: number, z: number) : Three.Mesh {
-  const RINGS = 50;
-  const SEGMENTS = 16;
-  const RADIUS = 16;
-
   const material = new Three.MeshLambertMaterial({
     color: 0xCC0000
   });
-
-  // const material = new Three.MeshBasicMaterial({
-  //   color: 0xCC0000
-  // });
-
-  // let geometry = new Three.SphereGeometry(
-  //   RADIUS,
-  //   SEGMENTS,
-  //   RINGS
-  // );
 
   let geometry = new Three.BoxGeometry(25, 25, 25 );
   let mesh = new Three.Mesh(geometry , material);
